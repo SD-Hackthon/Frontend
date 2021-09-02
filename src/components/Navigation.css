@@ -1,0 +1,22 @@
+.navigation{
+    background-color: #334257 !important;
+}
+
+.nav-brand{
+    outline: none;
+    color: #EEEEEE;
+    text-decoration: none !important;
+    font-weight: bold;
+}
+.nav-brand:hover{
+    color: aliceblue;
+}
+
+.nav-link{
+    color: #EEEEEE !important;
+}
+
+.drop-link{
+    text-decoration: none;
+    color: inherit;
+}

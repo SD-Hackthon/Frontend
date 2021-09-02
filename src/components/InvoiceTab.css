@@ -1,0 +1,7 @@
+.invoice-list{
+    height: 4rem !important;
+    font-size: 1.5rem;
+    margin: 1rem auto;
+    padding: auto;
+    background-color: bisque;
+}
