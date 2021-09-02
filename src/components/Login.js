@@ -29,12 +29,12 @@ function Login() {
             config
         )
         .then((res)=>{
-            console.log(res.data);
-            localStorage.setItem('token', res.token);
+            console.log(res.data.token);
+            localStorage.setItem('token', res.data.token);
         })
-        .then(err=>{
-            console.log(err);
-        })
+        // .then(err=>{
+        //     console.log(err);
+        // })
     };
 
     return (

@@ -18,8 +18,8 @@ function Signup() {
                 //  Authorization: `Bearer ${token}`,
             }
         }
-        axios.post("/api/users/signup",{
-            fname:fname,lname:lname,address:address,email:email,password:password,
+        axios.post("/api/users/",{
+            firstName:fname,lastName:lname,address:address,email:email,password:password,
         },config).then((response)=>{
             console.log(response);
         });
