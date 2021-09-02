@@ -12,18 +12,18 @@ import CreateCompany from './components/CreateCompany';
 
 function App() {
   return (
-      <div className="App">
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/signup" component={Signup} />
-            <Route path="/invoice" component={Invoice} />
-            <Route path="/company" component={Company} />
-            <Route path="/listprod" component={ListProducts} />
-            <Route path="/createinvoice" component={CreateInvoice} />
-            <Route path="/createcompany" component={CreateCompany} />
-          </Switch>
-      </div>
+    <div className="App">
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/invoice" component={Invoice} />
+        <Route path="/company" component={Company} />
+        <Route path="/listprod" component={ListProducts} />
+        <Route path="/createinvoice" component={CreateInvoice} />
+        <Route path="/createcompany" component={CreateCompany} />
+      </Switch>
+    </div>
   );
 }
 
