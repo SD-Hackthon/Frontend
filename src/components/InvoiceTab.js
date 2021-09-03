@@ -1,7 +1,12 @@
 import { Button, Col, Row } from "react-bootstrap"
 import './InvoiceTab.css'
+import { useHistory } from 'react-router';
 
 function InvoiceTab(item) {
+    const history = useHistory();
+    const token = localStorage.getItem('token');
+    if(!token) history.push('/login');
+
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement('script')

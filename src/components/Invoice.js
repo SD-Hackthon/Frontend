@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import './Invoice.css';
 import InvoiceTab from './InvoiceTab';
 import {useState} from 'react';
+import { useHistory } from 'react-router';
 
 const data = [
     {
@@ -43,7 +44,9 @@ const data = [
 function Invoice() {
     const [invoice,setInvoice] = useState();
 
-
+    const history = useHistory();
+    const token = localStorage.getItem('token');
+    if(!token) history.push('/login');
 
     // async componentDidMount(){
     //     const response = await fetch("/api/users/invoices")

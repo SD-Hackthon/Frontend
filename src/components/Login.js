@@ -1,45 +1,54 @@
-import React,{useState} from "react";
+import React,{useContext, useState} from "react";
 import './Login.css';
 import axios from "axios";
 import { Form,Button, Container } from "react-bootstrap";
+import { useHistory} from 'react-router-dom';
+import AuthContext from '../store/AuthContext';
+
 
 function Login() {
+    const context = useContext(AuthContext);
     const [email,setEmail] = useState();
     const [password,setPassword] = useState();
+    const [user,setUser] = useState(null);
 
     // useEffect(()=>{
     //     console.log(email);
     // },[email]);
+    let history = useHistory();
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        // const token = localStorage.getItem('token');
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                //  Authorization: `Bearer ${token}`,
             }
         }
-
         axios.post(
-            "/api/users/login",
+            "http://localhost:5000/api/users/login",
             {
                 email: email, password: password
             },
             config
         )
         .then((res)=>{
-            console.log(res.data.token);
+            // console.log(res.data);
+            context.login(res.data);
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('user_id',res.data._id);
+            localStorage.setItem('name', res.data.firstName);
+            if(res.status===200){
+                history.push('/');
+            }
         })
-        // .then(err=>{
-        //     console.log(err);
-        // })
+        .catch(err=>{
+            console.log(err);
+        })
     };
 
     return (
         <div className="login">
-            <Container>
+            <Container fluid>
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
@@ -57,7 +66,7 @@ function Login() {
                     <Form.Check type="checkbox" label="Remember me" />
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                    Login
+                        Login
                     </Button>
                 </Form>
             </Container>

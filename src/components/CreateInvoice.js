@@ -1,7 +1,9 @@
 import React, { useState} from 'react'
 import { Container, Form , Button, Dropdown,  Col, Row} from 'react-bootstrap';
 // import { Multiselect } from 'multiselect-react-dropdown';
-
+import Axios from 'axios';
+import './createInvoice.css'
+import { useHistory } from 'react-router';
 
 const data = [
     {
@@ -32,6 +34,10 @@ const data = [
 
 function CreateInvoice() {
 
+    const [customerName, setCustomerName] = useState('');
+    const [customerAddress, setCustomerAddress] = useState('')
+    const [customerNumber, setCustomerNumber] = useState('')
+
     const [name, setName] = useState('');
     const [foundName, setFoundName] = useState(data);
     const [product,setProduct] = useState({
@@ -39,6 +45,11 @@ function CreateInvoice() {
         qty: 0
     });
     const [list, setList] = useState([]);
+    const [email, setEmail] = useState('');
+
+    const history = useHistory();
+    const token = localStorage.getItem('token');
+    if(!token) history.push('/login');
 
     // For fetching data from backend
     // useEffect(() => {
@@ -53,6 +64,8 @@ function CreateInvoice() {
     //     );
     // }, []);
 
+
+
     const handleSelect = (e) => {
         setProduct({
             ...product,
@@ -60,7 +73,7 @@ function CreateInvoice() {
         })
         setFoundName([]);
         setName(e.target.innerHTML);
-        console.log(product.prodName);
+        // console.log(product.prodName);
     }
 
     const filter = (e) => {
@@ -84,15 +97,41 @@ function CreateInvoice() {
         setList(newList);
         setName("")
         setFoundName([]);
-        console.log(newList)
+        // console.log(newList)
     }
 
+    //Posting the list
     const submitHandler = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+        Axios.post(
+            "http://localhost:5000/api/company/invoice/612f92f9e981e966b219a7cb",
+            {
+                clientEmail: email,
+                // clientName: customerName,
+                // clientAddress: customerAddress,
+                // mobileNo: customerNumber,
+                data: list
+            }
+            ,config
+        )
+        .then((res)=>{
+            console.log(res.data);
+
+        })
+        .catch(err=>{
+            console.log(err);
+        })
     }
 
     return (
-        <div>
+        <div className="createInvoice">
             <Container>
                 <Form onSubmit={submitHandler}>
                     <Row className="g-2">
@@ -125,10 +164,22 @@ function CreateInvoice() {
                         <Col>{item.qty}</Col>
                         </Row>)}
 
+                    {/* <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Recepient's Name</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Name" onChange={e=>setCustomerName(e.target.value)}/>
+                    </Form.Group> */}
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Recepient's Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" />
+                        <Form.Control type="email" placeholder="Enter email" onChange={e=>setEmail(e.target.value)}/>
                     </Form.Group>
+                    {/* <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Recepient's Number</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Number" onChange={e=>setCustomerNumber(e.target.value)}/>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label>Recepient's Address</Form.Label>
+                        <Form.Control type="text" placeholder="Enter Name" onChange={e=>setCustomerAddress(e.target.value)}/>
+                    </Form.Group> */}
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>

@@ -9,16 +9,19 @@ import Company from './components/Company';
 import ListProducts from './components/ListProducts';
 import CreateInvoice from './components/CreateInvoice';
 import CreateCompany from './components/CreateCompany';
+import { useState } from 'react';
 
 function App() {
+  let auth=false;
+
   return (
     <div className="App">
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/login" component={Login} />
+        <Route path="/login"> <Login /> </Route>
         <Route path="/signup" component={Signup} />
-        <Route path="/invoice" component={Invoice} />
-        <Route path="/company" component={Company} />
+        <Route path="/invoice"><Invoice /></Route>
+        <Route path="/company"><Company /></Route>
         <Route path="/listprod" component={ListProducts} />
         <Route path="/createinvoice" component={CreateInvoice} />
         <Route path="/createcompany" component={CreateCompany} />

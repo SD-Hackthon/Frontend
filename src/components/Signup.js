@@ -2,6 +2,7 @@ import React,{useState} from "react";
 import './Signup.css';
 import axios from 'axios';
 import { Button, Container, Form } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
 function Signup() {
     const [fname,setFname] = useState();
@@ -9,6 +10,7 @@ function Signup() {
     const [address,setAddress] = useState();
     const [email,setEmail] = useState();
     const [password,setPassword] = useState();
+    let history = useHistory();
 
     const handleSubmit=(e)=>{
         e.preventDefault();
@@ -18,49 +20,19 @@ function Signup() {
                 //  Authorization: `Bearer ${token}`,
             }
         }
-        axios.post("/api/users/",{
+        axios.post("http://localhost:5000/api/users/",{
             firstName:fname,lastName:lname,address:address,email:email,password:password,
         },config).then((response)=>{
             console.log(response);
+            if(response.status===201){
+                history.push('/login');
+            }
         });
     };
 
 
 
     return (
-        // <form >
-        //     <h3>Register</h3>
-
-        //     <div className="form-group">
-        //         <label>First name</label>
-        //         <input type="text" className="form-control" placeholder="First name" onChange={e=>setFname(e.target.value)}/>
-        //     </div>
-
-        //     <div className="form-group">
-        //         <label>Last name</label>
-        //         <input type="text" className="form-control" placeholder="Last name" onChange={e=>setLname(e.target.value)}/>
-        //     </div>
-
-        //     <div className="form-group">
-        //         <label>Address</label>
-        //         <input type="text" className="form-control" placeholder="Address" onChange={e=>setAddress(e.target.value)}/>
-        //     </div>
-
-        //     <div className="form-group">
-        //         <label>Email</label>
-        //         <input type="email" className="form-control" placeholder="Enter email" onChange={e=>setEmail(e.target.value)}/>
-        //     </div>
-
-        //     <div className="form-group">
-        //         <label>Password</label>
-        //         <input type="password" className="form-control" placeholder="Enter password" onChange={e=>setPassword(e.target.value)}/>
-        //     </div>
-
-        //     <button className="btn btn-dark btn-lg btn-block" onClick={handleSubmit}>Register</button>
-        //     <p className="forgot-password text-right">
-        //         Already registered <Link to="/login">log in?</Link>
-        //     </p>
-        // </form>
         <Container className="signup">
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">

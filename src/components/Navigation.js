@@ -1,49 +1,58 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
-import Navbar from 'react-bootstrap/Navbar'
-import NavDropdown from 'react-bootstrap/NavDropdown'
-import Nav from 'react-bootstrap/Nav'
-import Container from 'react-bootstrap/Container'
+import {useState,useEffect, useContext} from 'react'
+import {Link, NavLink} from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 import './Navigation.css'
+import { useHistory } from 'react-router';
+import AuthContext from '../store/AuthContext';
+
 
 function Navigation() {
+    const context = useContext(AuthContext);
+    const history = useHistory();
+    const [check,setCheck] = useState();
+    const isLoggedIn = context.isLoggedIn
+
+    const signoutHandler = (e) => {
+        context.logout();
+        history.push('/login');
+    }
+
     return (
-        <div >
-            <Navbar className="navigation" expand="lg">
-                <Container>
-                    <Navbar.Brand >
-                        <Link to="/" className="nav-brand">FrontEnd</Link>
-                    </Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link>
-                            <Link to="/invoice" className="nav-link">Invoices</Link>
-                        </Nav.Link>
-                        <Nav.Link>
-                            <Link to="/createcompany" className="nav-link">Create Company</Link>
-                        </Nav.Link>
-                        <Nav.Link>
-                            <NavDropdown title="Select Company" id="basic-nav-dropdown">
-                                    <NavDropdown.Item>
-                                        Company 1
-                                    </NavDropdown.Item>
-                                    <NavDropdown.Item>Company 2</NavDropdown.Item>
-                                    <NavDropdown.Item>Company 3</NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav.Link>
-                    </Nav>
-                    </Navbar.Collapse>
-                    <Navbar.Collapse className="justify-content-end">
-                        <Nav.Link>
-                            <Link to="/login" className="nav-link">Login</Link>
-                        </Nav.Link>
-                        <Nav.Link>
-                            <Link to="/signup" className="nav-link">Signup</Link>
-                        </Nav.Link>
-                    </Navbar.Collapse>
-                </Container>
-            </Navbar>
+        <div>
+            <nav className="header">
+                <Link to='/'>
+                    <div className="logo">FrontEnd</div>
+                </Link>
+                    <ul>
+                        <li>
+                            <Link to='/invoice'>Invoices</Link>
+                        </li>
+                        <li>
+                            <Link to='/createcompany'>Create Company</Link>
+                        </li>
+                        <li>
+                            <Link to='/company'>Your Companies</Link>
+                        </li>
+                        {
+                            isLoggedIn?(
+                                <li>
+                                    <Button onClick={signoutHandler}>Sign out</Button>
+                                </li>
+                            ):(
+                                <>
+                                <li>
+                                    <Link to='/login'>Login</Link>
+                                </li>
+                                <li>
+                                    <Link to='/signup'>Signup</Link>
+                                </li>
+                                </>
+                            )
+                        }
+
+
+                    </ul>
+            </nav>
         </div>
     )
 }
